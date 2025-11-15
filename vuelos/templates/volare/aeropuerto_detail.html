@@ -15,7 +15,7 @@
 
         <h3>Aerolíneas que operan aquí</h3>
         <ul>
-            {% for aerolinea in aerolineas %}
+            {% for aerolinea in aeropuerto.aerolineas.all %}
                 <li>
                     <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
                         {{ aerolinea.nombre }}
