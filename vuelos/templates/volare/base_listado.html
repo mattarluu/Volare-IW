@@ -1,0 +1,10 @@
+{% extends 'volare/base.html' %}
+
+{% block title %}{% block page_title %}Listado{% endblock %} · Volare{% endblock %}
+
+{% block content %}
+<section class="listado">
+    <h2>{% block heading %}Listado{% endblock %}</h2>
+    {% block listado_contenido %}{% endblock %}
+</section>
+{% endblock %}

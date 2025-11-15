@@ -1,0 +1,28 @@
+{% extends 'volare/base.html' %}
+
+{% block title %}{{ aeropuerto.codigo_iata }} · Volare{% endblock %}
+
+{% block content %}
+<section>
+    <h2>{{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}</h2>
+    <p><strong>Ciudad:</strong> {{ aeropuerto.ciudad }}</p>
+    <p><strong>País:</strong>
+        <a href="{% url 'vuelos:pais_detail' aeropuerto.pais.pk %}">
+            {{ aeropuerto.pais.nombre }}
+        </a>
+    </p>
+
+    <h3>Aerolíneas que operan aquí</h3>
+    <ul>
+        {% for aerolinea in aerolineas %}
+            <li>
+                <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
+                    {{ aerolinea.nombre }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No hay aerolíneas asociadas a este aeropuerto.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

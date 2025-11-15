@@ -1,0 +1,18 @@
+{% extends 'volare/base_listado.html' %}
+
+{% block page_title %}Países{% endblock %}
+{% block heading %}Listado de países{% endblock %}
+
+{% block listado_contenido %}
+<ul class="lista">
+    {% for pais in paises %}
+        <li>
+            <a href="{% url 'vuelos:pais_detail' pais.pk %}">
+                {{ pais.nombre }} ({{ pais.codigo_iso }})
+            </a>
+        </li>
+    {% empty %}
+        <li>No hay países registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

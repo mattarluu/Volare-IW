@@ -1,0 +1,19 @@
+{% extends 'volare/base_listado.html' %}
+
+{% block page_title %}Aeropuertos{% endblock %}
+{% block heading %}Listado de aeropuertos{% endblock %}
+
+{% block listado_contenido %}
+<ul class="lista">
+    {% for aeropuerto in aeropuertos %}
+        <li>
+            <a href="{% url 'vuelos:aeropuerto_detail' aeropuerto.pk %}">
+                {{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}
+            </a>
+            ({{ aeropuerto.pais.nombre }})
+        </li>
+    {% empty %}
+        <li>No hay aeropuertos registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

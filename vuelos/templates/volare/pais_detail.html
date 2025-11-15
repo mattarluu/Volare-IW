@@ -1,0 +1,22 @@
+{% extends 'volare/base.html' %}
+
+{% block title %}{{ pais.nombre }} · Volare{% endblock %}
+
+{% block content %}
+<section>
+    <h2>{{ pais.nombre }} ({{ pais.codigo_iso }})</h2>
+
+    <h3>Aerolíneas del país</h3>
+    <ul>
+        {% for aerolinea in aerolineas %}
+            <li>
+                <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
+                    {{ aerolinea.nombre }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No hay aerolíneas registradas para este país.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
