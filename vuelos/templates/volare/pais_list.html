@@ -1,5 +1,5 @@
 {% extends 'volare/base_listado.html' %}
-
+{% load static %}
 {% block page_title %}Países{% endblock %}
 {% block heading %}Listado de países{% endblock %}
 
@@ -8,6 +8,11 @@
     {% for pais in paises %}
         <li>
             <a href="{% url 'vuelos:pais_detail' pais.pk %}">
+                <img 
+                    src="{% static 'imagenes/banderas/'|add:pais.codigo_iso|lower|add:'.png' %}" 
+                    alt="Bandera de {{ pais.nombre }}" 
+                    class="bandera-icono"
+                >
                 {{ pais.nombre }} ({{ pais.codigo_iso }})
             </a>
         </li>

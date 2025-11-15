@@ -41,7 +41,7 @@ class Aerolinea(models.Model):
         related_name="aerolineas",
         blank=True
     )
-    # Puedes añadir más cosas si quieres (año fundación, web, etc.)
+
     anio_fundacion = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:

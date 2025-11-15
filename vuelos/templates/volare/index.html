@@ -1,26 +1,35 @@
 {% extends 'volare/base.html' %}
-
+{% load static %}
 {% block title %}Inicio · Volare{% endblock %}
 
 {% block content %}
 <section>
-    <h2>Aerolíneas destacadas por país</h2>
-    <p>Mostramos una aerolínea por país (la primera alfabéticamente).</p>
+    <h2>Aerolíneas destacadas</h2>
 
-    <div class="tarjetas">
+    <div class="tarjetas-dos-columnas">
         {% for aerolinea in aerolineas_destacadas %}
             <article class="tarjeta">
-                <h3>
-                    <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
-                        {{ aerolinea.nombre }}
-                    </a>
-                </h3>
-                <p><strong>País:</strong> {{ aerolinea.pais.nombre }}</p>
+                <div class="info-aerolinea">
+                    <h3>
+                        <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
+                            {{ aerolinea.nombre }}
+                        </a>
+                    </h3>
+                    <p><strong>País:</strong> {{ aerolinea.pais.nombre }}</p>
+                    {% if aerolinea.codigo_iata %}
+                        <p><strong>Código IATA:</strong> {{ aerolinea.codigo_iata }}</p>
+                    {% endif %}
+                    {% if aerolinea.anio_fundacion %}
+                        <p><strong>Año de fundación:</strong> {{ aerolinea.anio_fundacion }}</p>
+                    {% endif %}
+                 </div>
                 {% if aerolinea.codigo_iata %}
-                    <p><strong>Código IATA:</strong> {{ aerolinea.codigo_iata }}</p>
-                {% endif %}
-                {% if aerolinea.anio_fundacion %}
-                    <p><strong>Año de fundación:</strong> {{ aerolinea.anio_fundacion }}</p>
+                    <div class="logo-aerolinea">
+                        <img 
+                            src="{% static 'imagenes/logos/'|add:aerolinea.codigo_iata|lower|add:'.png' %}" 
+                            alt="Logo de {{ aerolinea.nombre }}" 
+                        >
+                    </div>
                 {% endif %}
             </article>
         {% empty %}

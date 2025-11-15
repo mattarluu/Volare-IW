@@ -1,28 +1,37 @@
 {% extends 'volare/base.html' %}
-
+{% load static %}
 {% block title %}{{ aeropuerto.codigo_iata }} · Volare{% endblock %}
 
 {% block content %}
-<section>
-    <h2>{{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}</h2>
-    <p><strong>Ciudad:</strong> {{ aeropuerto.ciudad }}</p>
-    <p><strong>País:</strong>
-        <a href="{% url 'vuelos:pais_detail' aeropuerto.pais.pk %}">
-            {{ aeropuerto.pais.nombre }}
-        </a>
-    </p>
+<section class="detalle-aeropuerto">
+    <div class="info-aeropuerto">
+        <h2>{{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}</h2>
+        <p><strong>Ciudad:</strong> {{ aeropuerto.ciudad }}</p>
+        <p><strong>País:</strong>
+            <a href="{% url 'vuelos:pais_detail' aeropuerto.pais.pk %}">
+                {{ aeropuerto.pais.nombre }}
+            </a>
+        </p>
 
-    <h3>Aerolíneas que operan aquí</h3>
-    <ul>
-        {% for aerolinea in aerolineas %}
-            <li>
-                <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
-                    {{ aerolinea.nombre }}
-                </a>
-            </li>
-        {% empty %}
-            <li>No hay aerolíneas asociadas a este aeropuerto.</li>
-        {% endfor %}
-    </ul>
+        <h3>Aerolíneas que operan aquí</h3>
+        <ul>
+            {% for aerolinea in aerolineas %}
+                <li>
+                    <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
+                        {{ aerolinea.nombre }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No hay aerolíneas asociadas a este aeropuerto.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="imagen-aeropuerto">
+        <img 
+            src="{% static 'imagenes/aeropuertos/'|add:aeropuerto.codigo_iata|lower|add:'.png' %}" 
+            alt="{{ aeropuerto.nombre }}"
+        >
+    </div>
 </section>
 {% endblock %}
