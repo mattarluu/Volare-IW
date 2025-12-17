@@ -92,7 +92,6 @@ def aerolinea_create(request):
     Vista para CREAR una nueva aerolínea.
     GET: Muestra el formulario vacío
     POST: Procesa los datos y crea la aerolínea
-    ACTUALIZADO: Código IATA ahora es obligatorio
     """
     if request.method == "POST":
         nombre = request.POST.get("nombre", "").strip()
@@ -151,7 +150,6 @@ def aerolinea_update(request, pk):
     Vista para ACTUALIZAR una aerolínea existente.
     GET: Muestra el formulario con los datos actuales
     POST: Procesa los cambios y actualiza la aerolínea
-    ACTUALIZADO: Código IATA ahora es obligatorio
     """
     aerolinea = get_object_or_404(Aerolinea, pk=pk)
     
@@ -211,7 +209,7 @@ def aerolinea_update(request, pk):
 
 def aerolinea_delete(request, pk):
     """
-    Vista para ELIMINAR una aerolínea.
+    Vista para eliminar una aerolínea.
     """
     if request.method == "POST":
         aerolinea = get_object_or_404(Aerolinea, pk=pk)
