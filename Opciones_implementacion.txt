@@ -1,0 +1,37 @@
+ENTREGA 4 - INGENIERÍA WEB - IW06-Aviones
+
+FUNCIONALIDADES AÑADIDAS EN DJANGO
+
+1. MÉTODOS CRUD IMPLEMENTADOS:
+   - CREATE: Formulario para crear nuevas aerolíneas
+   - UPDATE: Formulario para editar aerolíneas existentes
+   - DELETE: Funcionalidad para eliminar aerolíneas
+
+2. FUNCIONALIDAD ADICIONAL SELECCIONADA:
+   - Opción 5: Realizar 2 de las funcionalidades Create-Update-Delete
+   (Hemos implementado las 3)
+
+JAVASCRIPT CLIENT-SIDE
+
+OPCIONES IMPLEMENTADAS: Opción 1 + Opción 2 (AMBAS)
+
+OPCIÓN 1 - Interacción enriquecida con JavaScript:
+- Validación de formularios antes del envío
+- Validación en tiempo real de campos obligatorios
+- Confirmación de eliminación con diálogo
+- Deshabilitación del botón de envío hasta validación correcta
+- Mensajes de error visuales en campos inválidos (borde rojo)
+- Mensajes de validación correcta (borde verde)
+- Efectos visuales en tarjetas (hover con transformación)
+- Conversión automática a mayúsculas del código IATA
+- Validación de año de fundación (entre 1900 y año actual)
+- Código IATA obligatorio (2-3 caracteres)
+
+OPCIÓN 2 - Interacción enriquecida con AJAX:
+- Búsqueda en tiempo real de aerolíneas sin recargar la página
+- Envío de datos vía JSON al backend (fetch API)
+- Actualización dinámica del contenido de la lista
+- Filtrado por nombre de aerolínea o código IATA
+- Contador de resultados en tiempo real
+- Debounce para optimizar las peticiones al servidor (300ms)
+- Manejo de errores en peticiones AJAX
