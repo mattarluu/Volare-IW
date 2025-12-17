@@ -1,0 +1,110 @@
+{% extends 'volare/base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if aerolinea %}Editar{% else %}Nueva{% endif %} Aerolínea · Volare
+{% endblock %}
+
+{% block content %}
+<div class="formulario-container">
+    <h2>
+        {% if aerolinea %}
+            Editar Aerolínea: {{ aerolinea.nombre }}
+        {% else %}
+            Nueva Aerolínea
+        {% endif %}
+    </h2>
+    
+    <form id="form-aerolinea" method="post">
+        {% csrf_token %}
+        
+        <!-- nombre (obligatorio) -->
+        <div class="form-group">
+            <label for="nombre" class="campo-requerido">Nombre de la aerolínea</label>
+            <input 
+                type="text" 
+                id="nombre" 
+                name="nombre" 
+                value="{% if aerolinea %}{{ aerolinea.nombre }}{% endif %}"
+                placeholder="Ej: Iberia, Air France, Lufthansa"
+                required
+            >
+            <div class="ayuda-texto">Este campo es obligatorio</div>
+        </div>
+        
+        <!-- codigo IATA (obligatorio)-->
+        <div class="form-group">
+            <label for="codigo_iata" class="campo-requerido">Código IATA</label>
+            <input 
+                type="text" 
+                id="codigo_iata" 
+                name="codigo_iata" 
+                value="{% if aerolinea.codigo_iata %}{{ aerolinea.codigo_iata }}{% endif %}"
+                placeholder="Ej: IB, AF, LH"
+                maxlength="3"
+                pattern="[A-Z]{2,3}"
+                required
+            >
+            <div class="ayuda-texto">Código de 2-3 letras (obligatorio)</div>
+        </div>
+        
+        <!-- pais (obligatorio) -->
+        <div class="form-group">
+            <label for="pais" class="campo-requerido">País</label>
+            <select id="pais" name="pais" required>
+                <option value="">-- Selecciona un país --</option>
+                {% for pais in paises %}
+                    <option value="{{ pais.pk }}" 
+                        {% if aerolinea and aerolinea.pais.pk == pais.pk %}selected{% endif %}>
+                        {{ pais.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div class="ayuda-texto">Este campo es obligatorio</div>
+        </div>
+        
+        <!-- Anio de fundacion (opcional) -->
+        <div class="form-group">
+            <label for="anio_fundacion">Año de fundación <span class="campo-opcional">(opcional)</span></label>
+            <input 
+                type="number" 
+                id="anio_fundacion" 
+                name="anio_fundacion" 
+                value="{% if aerolinea.anio_fundacion %}{{ aerolinea.anio_fundacion }}{% endif %}"
+                placeholder="Ej: 1927"
+                min="1900"
+                max="{{ anio_actual }}"
+            >
+            <div class="ayuda-texto">Debe estar entre 1900 y {{ anio_actual }}</div>
+        </div>
+        
+        <!-- aeropuertos (opcional) -->
+        <div class="form-group">
+            <label for="aeropuertos">Aeropuertos que opera <span class="campo-opcional">(opcional)</span></label>
+            <select id="aeropuertos" name="aeropuertos" multiple size="6" style="height: auto;">
+                {% for aeropuerto in aeropuertos %}
+                    <option value="{{ aeropuerto.pk }}"
+                        {% if aerolinea and aeropuerto in aerolinea.aeropuertos.all %}selected{% endif %}>
+                        {{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div class="ayuda-texto">Mantén presionada la tecla Ctrl (Cmd en Mac) para seleccionar múltiples aeropuertos</div>
+        </div>
+        
+        <!-- botones -->
+        <div class="form-actions">
+            <button type="submit" id="btn-enviar" class="btn-submit btn-deshabilitado" disabled>
+                {% if aerolinea %}
+                    Guardar Cambios
+                {% else %}
+                    Crear Aerolínea
+                {% endif %}
+            </button>
+            <a href="{% url 'vuelos:aerolinea_list' %}" class="btn-cancelar">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

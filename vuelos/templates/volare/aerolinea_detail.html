@@ -1,34 +1,63 @@
 {% extends 'volare/base.html' %}
+{% load static %}
 
 {% block title %}{{ aerolinea.nombre }} · Volare{% endblock %}
 
 {% block content %}
-<article>
+<div class="detalle-header">
     <h2>{{ aerolinea.nombre }}</h2>
-    {% if aerolinea.codigo_iata %}
-        <p><strong>Código IATA:</strong> {{ aerolinea.codigo_iata }}</p>
-    {% endif %}
-    <p><strong>País:</strong>
+    
+    <div class="acciones-detalle">
+        <a href="{% url 'vuelos:aerolinea_update' aerolinea.pk %}" class="btn-accion btn-editar">
+            Editar
+        </a>
+        <form method="post" action="{% url 'vuelos:aerolinea_delete' aerolinea.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button 
+                type="submit" 
+                class="btn-accion btn-eliminar" 
+                data-nombre="{{ aerolinea.nombre }}">
+                Eliminar
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="detalle-box">
+    <p><strong>País:</strong> 
         <a href="{% url 'vuelos:pais_detail' aerolinea.pais.pk %}">
             {{ aerolinea.pais.nombre }}
         </a>
     </p>
+
+    {% if aerolinea.codigo_iata %}
+        <p><strong>Código IATA:</strong> {{ aerolinea.codigo_iata }}</p>
+    {% endif %}
+
     {% if aerolinea.anio_fundacion %}
         <p><strong>Año de fundación:</strong> {{ aerolinea.anio_fundacion }}</p>
     {% endif %}
 
-    <h3>Aeropuertos en los que opera</h3>
-    <ul>
-        {% for aeropuerto in aerolinea.aeropuertos.all %}
-            <li>
-                <a href="{% url 'vuelos:aeropuerto_detail' aeropuerto.pk %}">
-                    {{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}
-                </a>
-                ({{ aeropuerto.pais.nombre }})
-            </li>
-        {% empty %}
-            <li>No hay aeropuertos asociados.</li>
-        {% endfor %}
-    </ul>
-</article>
+    {% if aerolinea.aeropuertos.all %}
+        <p><strong>Aeropuertos donde opera:</strong></p>
+        <ul class="lista">
+            {% for aeropuerto in aerolinea.aeropuertos.all %}
+                <li>
+                    <a href="{% url 'vuelos:aeropuerto_detail' aeropuerto.pk %}">
+                        {{ aeropuerto.codigo_iata }} - {{ aeropuerto.nombre }}
+                    </a>
+                    ({{ aeropuerto.ciudad }}, {{ aeropuerto.pais.nombre }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><em>No hay aeropuertos registrados para esta aerolínea.</em></p>
+    {% endif %}
+</div>
+
+<p style="margin-top: 1.5rem;">
+    <a href="{% url 'vuelos:aerolinea_list' %}" class="btn-accion btn-volver">
+        ← Volver al listado
+    </a>
+</p>
 {% endblock %}

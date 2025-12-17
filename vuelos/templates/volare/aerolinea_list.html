@@ -1,19 +1,67 @@
 {% extends 'volare/base_listado.html' %}
+{% load static %}
 
 {% block page_title %}Aerolíneas{% endblock %}
-{% block heading %}Aerolíneas{% endblock %}
+{% block heading %}Aerolíneas registradas{% endblock %}
 
 {% block listado_contenido %}
-<ul class="lista">
-    {% for aerolinea in aerolineas %}
-        <li>
-            <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}">
-                {{ aerolinea.nombre }}
-            </a>
-            ({{ aerolinea.pais.nombre }})
-        </li>
-    {% empty %}
-        <li>No hay aerolíneas registradas.</li>
-    {% endfor %}
-</ul>
+<div class="acciones-header">
+    <a href="{% url 'vuelos:aerolinea_create' %}" class="btn-crear">
+        Nueva Aerolínea
+    </a>
+</div>
+
+<!-- busqueda AJAX-->
+<div class="busqueda-container">
+    <input 
+        type="text" 
+        id="busqueda-aerolineas" 
+        class="busqueda-input" 
+        placeholder="Buscar aerolíneas por nombre o código IATA..."
+        autocomplete="off"
+    >
+    <div id="resultado-busqueda" class="resultado-busqueda"></div>
+</div>
+
+<div id="lista-aerolineas">
+    {% if aerolineas %}
+        <ul class="lista">
+            {% for aerolinea in aerolineas %}
+                <li>
+                    <div class="info-aerolinea-lista">
+                        <strong>{{ aerolinea.nombre }}</strong>
+                        {% if aerolinea.codigo_iata %}
+                            <span>({{ aerolinea.codigo_iata }})</span>
+                        {% endif %}
+                        — {{ aerolinea.pais.nombre }}
+                        {% if aerolinea.anio_fundacion %}
+                            — Fundada en {{ aerolinea.anio_fundacion }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="acciones-lista">
+                        <a href="{% url 'vuelos:aerolinea_detail' aerolinea.pk %}" class="btn-accion btn-ver">
+                            Ver
+                        </a>
+                        <a href="{% url 'vuelos:aerolinea_update' aerolinea.pk %}" class="btn-accion btn-editar">
+                            Editar
+                        </a>
+                        <form method="post" action="{% url 'vuelos:aerolinea_delete' aerolinea.pk %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button 
+                                type="submit" 
+                                class="btn-accion btn-eliminar" 
+                                data-nombre="{{ aerolinea.nombre }}">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay aerolíneas registradas todavía.</p>
+        <p><a href="{% url 'vuelos:aerolinea_create' %}" class="btn">Crear la primera aerolínea</a></p>
+    {% endif %}
+</div>
 {% endblock %}
